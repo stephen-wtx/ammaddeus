@@ -86,17 +86,10 @@ body {
 
 /* Estilização individual das imagens (Tamanho aumentado) */
 .carousel-group img {
-    width: 1200px; /* Aumentado de 300px para 450px */
+    width: min(85vw, 1200px);
     height: auto;
-    object-fit: cover;
-    border-radius: 16px; /* Cantos um pouco mais arredondados para acompanhar a proporção */
+    object-fit: contain;
+    border-radius: 16px;
     user-select: none;
     pointer-events: none;
-}
-
-/* Ajuste responsivo para telas menores */
-@media (max-width: 768px) {
-    .carousel-group img {
-        width: 320px; /* Reduz ligeiramente em telas mobile para melhor visualização */
-    }
 }
