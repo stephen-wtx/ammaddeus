@@ -93,3 +93,64 @@ body {
     user-select: none;
     pointer-events: none;
 }
+
+/* Tablets */
+@media (max-width: 1024px) {
+    .carousel-group {
+        gap: 30px;
+        padding-right: 30px;
+    }
+
+    .carousel-group img {
+        width: 90vw;
+    }
+}
+
+/* Phones */
+@media (max-width: 768px) {
+    body {
+        padding-top: 70px;
+    }
+
+    .main-header {
+        height: 70px;
+    }
+
+    .carousel-group {
+        gap: 20px;
+        padding-right: 20px;
+    }
+
+    .carousel-group img {
+        width: 95vw;
+        border-radius: 12px;
+    }
+}
+
+/* Phones in landscape */
+@media (max-width: 932px) and (orientation: landscape) {
+    body {
+        padding-top: 60px;
+    }
+
+    .main-header {
+        height: 60px;
+    }
+
+    .carousel-container {
+        padding: 10px 0;
+    }
+
+    .carousel-group {
+        gap: 16px;
+        padding-right: 16px;
+    }
+
+    .carousel-group img {
+        width: auto;
+        max-width: 85vw;
+        max-height: 70vh;
+        height: auto;
+        border-radius: 10px;
+    }
+}
