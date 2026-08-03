@@ -2,22 +2,21 @@ document.addEventListener("DOMContentLoaded", () => {
     const track = document.getElementById("carouselTrack");
     const originalGroup = document.getElementById("originalGroup");
     const playPauseBtn = document.getElementById("playPauseBtn");
+    const container = track.parentElement;
 
-    // Duplica dinamicamente o grupo de imagens para garantir o loop infinito perfeito
-    // const clonedGroup = originalGroup.cloneNode(true);
-    // clonedGroup.removeAttribute("id"); 
-    // track.appendChild(clonedGroup);
-
-    // Variáveis de controle de animação
+    // Animation variables
     let isPlaying = false;
     let currentPosition = 0;
     let lastTime = 0;
     let animationFrameId = null;
 
-    // Velocidade: ~25 pixels por segundo
-    const SPEED_PER_SECOND = 35; 
+    // Drag variables
+    let isDragging = false;
+    let startX = 0;
+    let startPosition = 0;
 
-    // Função de animação fluida por tempo real
+    const SPEED_PER_SECOND = 35;
+
     function animate(timestamp) {
         if (!lastTime) lastTime = timestamp;
 
@@ -25,17 +24,15 @@ document.addEventListener("DOMContentLoaded", () => {
         lastTime = timestamp;
 
         const maxScroll =
-            track.scrollWidth - track.parentElement.clientWidth;
+            track.scrollWidth - container.clientWidth;
 
         currentPosition -= SPEED_PER_SECOND * deltaTime;
 
-        // Chegou no último card
         if (Math.abs(currentPosition) >= maxScroll) {
             currentPosition = -maxScroll;
             track.style.transform = `translate3d(${currentPosition}px,0,0)`;
 
-            isPlaying = false;
-            playPauseBtn.textContent = "▶ Play";
+            stopCarousel();
             return;
         }
 
@@ -46,21 +43,89 @@ document.addEventListener("DOMContentLoaded", () => {
         }
     }
 
-    // Liga/Desliga o movimento
+    function startCarousel() {
+        if (isPlaying) return;
+
+        isPlaying = true;
+        playPauseBtn.textContent = "❚❚ Pause";
+        lastTime = 0;
+
+        animationFrameId = requestAnimationFrame(animate);
+    }
+
+    function stopCarousel() {
+        isPlaying = false;
+        playPauseBtn.textContent = "▶ Play";
+
+        if (animationFrameId) {
+            cancelAnimationFrame(animationFrameId);
+            animationFrameId = null;
+        }
+    }
+
     function toggleCarousel() {
-        if (!isPlaying) {
-            isPlaying = true;
-            playPauseBtn.textContent = "❚❚ Pause";
-            lastTime = 0; 
-            animationFrameId = requestAnimationFrame(animate);
+        if (isPlaying) {
+            stopCarousel();
         } else {
-            isPlaying = false;
-            playPauseBtn.textContent = "▶ Play";
-            if (animationFrameId) {
-                cancelAnimationFrame(animationFrameId);
-            }
+            startCarousel();
         }
     }
 
     playPauseBtn.addEventListener("click", toggleCarousel);
+
+    // Tap any image to start
+    document.querySelectorAll(".carousel-group img").forEach(img => {
+        img.addEventListener("click", () => {
+            if (!isPlaying) {
+                startCarousel();
+            }
+        });
+    });
+
+    // ======================
+    // Drag functionality
+    // ======================
+
+    container.addEventListener("pointerdown", (e) => {
+        isDragging = true;
+
+        stopCarousel();
+
+        startX = e.clientX;
+        startPosition = currentPosition;
+
+        container.style.cursor = "grabbing";
+    });
+
+    container.addEventListener("pointermove", (e) => {
+        if (!isDragging) return;
+
+        const dx = e.clientX - startX;
+
+        currentPosition = startPosition + dx;
+
+        const maxScroll =
+            track.scrollWidth - container.clientWidth;
+
+        if (currentPosition > 0) {
+            currentPosition = 0;
+        }
+
+        if (Math.abs(currentPosition) > maxScroll) {
+            currentPosition = -maxScroll;
+        }
+
+        track.style.transform = `translate3d(${currentPosition}px,0,0)`;
+    });
+
+    function endDrag() {
+        if (!isDragging) return;
+
+        isDragging = false;
+        container.style.cursor = "grab";
+    }
+
+    container.addEventListener("pointerup", endDrag);
+    container.addEventListener("pointerleave", endDrag);
+    container.addEventListener("pointercancel", endDrag);
 });

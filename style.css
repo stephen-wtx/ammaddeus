@@ -64,6 +64,8 @@ body {
 
 /* Container que esconde o overflow */
 .carousel-container {
+    cursor: grab;
+    touch-action: pan-y;
     width: 100%;
     overflow: hidden;
     position: relative;
@@ -85,13 +87,16 @@ body {
 }
 
 /* Estilização individual das imagens (Tamanho aumentado) */
+
 .carousel-group img {
     width: min(85vw, 1200px);
     height: auto;
     object-fit: contain;
     border-radius: 16px;
     user-select: none;
-    pointer-events: none;
+    pointer-events: auto;
+    cursor: pointer;
+    touch-action: pan-y;
 }
 
 /* Tablets */
