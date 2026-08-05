@@ -154,7 +154,7 @@ body {
     .carousel-group img {
         width: auto;
         max-width: 95vw;
-        max-height: 80vh;
+        max-height: 75vh;
         height: auto;
         border-radius: 10px;
     }
