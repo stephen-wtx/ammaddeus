@@ -17,7 +17,7 @@ body {
 }
 
 /* Header Fixo no Topo */
-.main-header {
+/* .main-header {
     position: fixed;
     top: 0;
     left: 0;
@@ -27,8 +27,8 @@ body {
     display: flex;
     justify-content: center;
     align-items: center;
-    z-index: 1000; /* Garante que fique sempre acima do carrossel */
-}
+    z-index: 1000;
+} */
 
 /* Estilização do Botão */
 .btn {
@@ -153,8 +153,8 @@ body {
 
     .carousel-group img {
         width: auto;
-        max-width: 85vw;
-        max-height: 70vh;
+        max-width: 95vw;
+        max-height: 80vh;
         height: auto;
         border-radius: 10px;
     }
