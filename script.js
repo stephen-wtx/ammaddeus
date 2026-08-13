@@ -15,7 +15,9 @@ document.addEventListener("DOMContentLoaded", () => {
     let startX = 0;
     let startPosition = 0;
 
-    const SPEED_PER_SECOND = 35;
+    // const SPEED_PER_SECOND = 35;
+    const SPEED_PER_SECOND = 27;
+
 
     function animate(timestamp) {
         if (!lastTime) lastTime = timestamp;
